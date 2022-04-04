@@ -1,0 +1,977 @@
+model
+
+RepLKNet(
+  (stem): ModuleList(
+    (0): Sequential(
+      (conv): Conv2d(3, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn): SyncBatchNorm(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (nonlinear): ReLU()
+    )
+    (1): Sequential(
+      (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
+      (bn): SyncBatchNorm(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (nonlinear): ReLU()
+    )
+    (2): Sequential(
+      (conv): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): SyncBatchNorm(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (nonlinear): ReLU()
+    )
+    (3): Sequential(
+      (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=128, bias=False)
+      (bn): SyncBatchNorm(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (nonlinear): ReLU()
+    )
+  )
+  (stages): ModuleList(
+    (0): RepLKNetStage(
+      (blocks): ModuleList(
+        (0): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(128, 128, kernel_size=(31, 31), stride=(1, 1), padding=(15, 15), groups=128, bias=False)
+              (bn): SyncBatchNorm(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(128, 128, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=128, bias=False)
+              (bn): SyncBatchNorm(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): Identity()
+        )
+        (1): ConvFFN(
+          (drop_path): Identity()
+          (preffn_bn): SyncBatchNorm(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+        (2): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(128, 128, kernel_size=(31, 31), stride=(1, 1), padding=(15, 15), groups=128, bias=False)
+              (bn): SyncBatchNorm(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(128, 128, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=128, bias=False)
+              (bn): SyncBatchNorm(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (3): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+      )
+      (norm): Identity()
+    )
+    (1): RepLKNetStage(
+      (blocks): ModuleList(
+        (0): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(256, 256, kernel_size=(29, 29), stride=(1, 1), padding=(14, 14), groups=256, bias=False)
+              (bn): SyncBatchNorm(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(256, 256, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=256, bias=False)
+              (bn): SyncBatchNorm(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (1): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+        (2): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(256, 256, kernel_size=(29, 29), stride=(1, 1), padding=(14, 14), groups=256, bias=False)
+              (bn): SyncBatchNorm(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(256, 256, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=256, bias=False)
+              (bn): SyncBatchNorm(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (3): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+      )
+      (norm): Identity()
+    )
+    (2): RepLKNetStage(
+      (blocks): ModuleList(
+        (0): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(27, 27), stride=(1, 1), padding=(13, 13), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (1): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+        (2): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(27, 27), stride=(1, 1), padding=(13, 13), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (3): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+        (4): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(27, 27), stride=(1, 1), padding=(13, 13), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (5): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+        (6): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(27, 27), stride=(1, 1), padding=(13, 13), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (7): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+        (8): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(27, 27), stride=(1, 1), padding=(13, 13), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (9): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+        (10): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(27, 27), stride=(1, 1), padding=(13, 13), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (11): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+        (12): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(27, 27), stride=(1, 1), padding=(13, 13), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (13): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+        (14): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(27, 27), stride=(1, 1), padding=(13, 13), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (15): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+        (16): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(27, 27), stride=(1, 1), padding=(13, 13), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (17): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+        (18): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(27, 27), stride=(1, 1), padding=(13, 13), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (19): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+        (20): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(27, 27), stride=(1, 1), padding=(13, 13), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (21): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+        (22): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(27, 27), stride=(1, 1), padding=(13, 13), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (23): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+        (24): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(27, 27), stride=(1, 1), padding=(13, 13), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (25): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+        (26): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(27, 27), stride=(1, 1), padding=(13, 13), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (27): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+        (28): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(27, 27), stride=(1, 1), padding=(13, 13), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (29): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+        (30): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(27, 27), stride=(1, 1), padding=(13, 13), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (31): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+        (32): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(27, 27), stride=(1, 1), padding=(13, 13), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (33): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+        (34): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(27, 27), stride=(1, 1), padding=(13, 13), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(512, 512, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=512, bias=False)
+              (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (35): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+      )
+      (norm): Identity()
+    )
+    (3): RepLKNetStage(
+      (blocks): ModuleList(
+        (0): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(1024, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(1024, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(1024, 1024, kernel_size=(13, 13), stride=(1, 1), padding=(6, 6), groups=1024, bias=False)
+              (bn): SyncBatchNorm(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(1024, 1024, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=1024, bias=False)
+              (bn): SyncBatchNorm(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (1): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(1024, 4096, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(4096, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(4096, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+        (2): RepLKBlock(
+          (pw1): Sequential(
+            (conv): Conv2d(1024, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (nonlinear): ReLU()
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(1024, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (large_kernel): ReparamLargeKernelConv(
+            (lkb_origin): Sequential(
+              (conv): Conv2d(1024, 1024, kernel_size=(13, 13), stride=(1, 1), padding=(6, 6), groups=1024, bias=False)
+              (bn): SyncBatchNorm(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (small_conv): Sequential(
+              (conv): Conv2d(1024, 1024, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=1024, bias=False)
+              (bn): SyncBatchNorm(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (lk_nonlinear): ReLU()
+          (prelkb_bn): SyncBatchNorm(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (drop_path): DropPath()
+        )
+        (3): ConvFFN(
+          (drop_path): DropPath()
+          (preffn_bn): SyncBatchNorm(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (pw1): Sequential(
+            (conv): Conv2d(1024, 4096, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(4096, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (pw2): Sequential(
+            (conv): Conv2d(4096, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): SyncBatchNorm(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (nonlinear): GELU()
+        )
+      )
+      (norm): Identity()
+    )
+  )
+  (transitions): ModuleList(
+    (0): Sequential(
+      (0): Sequential(
+        (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn): SyncBatchNorm(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (nonlinear): ReLU()
+      )
+      (1): Sequential(
+        (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=256, bias=False)
+        (bn): SyncBatchNorm(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (nonlinear): ReLU()
+      )
+    )
+    (1): Sequential(
+      (0): Sequential(
+        (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (nonlinear): ReLU()
+      )
+      (1): Sequential(
+        (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=512, bias=False)
+        (bn): SyncBatchNorm(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (nonlinear): ReLU()
+      )
+    )
+    (2): Sequential(
+      (0): Sequential(
+        (conv): Conv2d(512, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn): SyncBatchNorm(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (nonlinear): ReLU()
+      )
+      (1): Sequential(
+        (conv): Conv2d(1024, 1024, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=1024, bias=False)
+        (bn): SyncBatchNorm(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (nonlinear): ReLU()
+      )
+    )
+  )
+  (norm): SyncBatchNorm(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (avgpool): AdaptiveAvgPool2d(output_size=1)
+  (head): Linear(in_features=1024, out_features=1000, bias=True)
+)
