@@ -1,0 +1,738 @@
+config
+
+python main.py --name mf294 --data /home/jch/PycharmProjects/imagenet-mini --dist-url 'tcp://127.0.0.1:12345' --dist-backend 'nccl' --multiprocessing-distributed --world-size 1 --rank 0 --batch-size 16
+
+
+mobile mf294
+
+MobileFormer(
+  (stem): Sequential(
+    (0): Conv2d(3, 16, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): hswish()
+  )
+  (bneck): Sequential(
+    (0): Conv2d(16, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=16)
+    (1): hswish()
+    (2): Conv2d(32, 16, kernel_size=(1, 1), stride=(1, 1))
+    (3): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (block): ModuleList(
+    (0): BaseBlock(
+      (mobile): MobileDown(
+        (fc1): Linear(in_features=192, out_features=48, bias=True)
+        (relu): ReLU(inplace=True)
+        (fc2): Linear(in_features=48, out_features=384, bias=True)
+        (sigmoid): Sigmoid()
+        (dw_conv1): Conv2d(16, 96, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=16, bias=False)
+        (dw_bn1): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (dw_act1): MyDyRelu()
+        (pw_conv1): Conv2d(96, 16, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (pw_bn1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (pw_act1): ReLU()
+        (dw_conv2): Conv2d(16, 96, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=16, bias=False)
+        (dw_bn2): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (dw_act2): MyDyRelu()
+        (pw_conv2): Conv2d(96, 24, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (pw_bn2): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (shortcut): Identity()
+      )
+      (mobile2former): Mobile2Former(
+        (to_q): Linear(in_features=192, out_features=32, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=32, out_features=192, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (former): Former(
+        (layers): ModuleList(
+          (0): ModuleList(
+            (0): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): Attention(
+                (attend): Softmax(dim=-1)
+                (to_qkv): Linear(in_features=192, out_features=192, bias=False)
+                (to_out): Sequential(
+                  (0): Linear(in_features=64, out_features=192, bias=True)
+                  (1): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+            (1): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): FeedForward(
+                (net): Sequential(
+                  (0): Linear(in_features=192, out_features=384, bias=True)
+                  (1): GELU()
+                  (2): Dropout(p=0.3, inplace=False)
+                  (3): Linear(in_features=384, out_features=192, bias=True)
+                  (4): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+          )
+        )
+      )
+      (former2mobile): Former2Mobile(
+        (to_k): Linear(in_features=192, out_features=48, bias=True)
+        (to_v): Linear(in_features=192, out_features=48, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=48, out_features=24, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+    )
+    (1): BaseBlock(
+      (mobile): Mobile(
+        (fc1): Linear(in_features=192, out_features=48, bias=True)
+        (relu): ReLU(inplace=True)
+        (fc2): Linear(in_features=48, out_features=384, bias=True)
+        (sigmoid): Sigmoid()
+        (conv1): Conv2d(24, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): MyDyRelu()
+        (conv2): Conv2d(96, 96, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=96, bias=False)
+        (bn2): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): MyDyRelu()
+        (conv3): Conv2d(96, 24, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (shortcut): Identity()
+      )
+      (mobile2former): Mobile2Former(
+        (to_q): Linear(in_features=192, out_features=48, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=48, out_features=192, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (former): Former(
+        (layers): ModuleList(
+          (0): ModuleList(
+            (0): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): Attention(
+                (attend): Softmax(dim=-1)
+                (to_qkv): Linear(in_features=192, out_features=192, bias=False)
+                (to_out): Sequential(
+                  (0): Linear(in_features=64, out_features=192, bias=True)
+                  (1): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+            (1): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): FeedForward(
+                (net): Sequential(
+                  (0): Linear(in_features=192, out_features=384, bias=True)
+                  (1): GELU()
+                  (2): Dropout(p=0.3, inplace=False)
+                  (3): Linear(in_features=384, out_features=192, bias=True)
+                  (4): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+          )
+        )
+      )
+      (former2mobile): Former2Mobile(
+        (to_k): Linear(in_features=192, out_features=48, bias=True)
+        (to_v): Linear(in_features=192, out_features=48, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=48, out_features=24, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+    )
+    (2): BaseBlock(
+      (mobile): MobileDown(
+        (fc1): Linear(in_features=192, out_features=48, bias=True)
+        (relu): ReLU(inplace=True)
+        (fc2): Linear(in_features=48, out_features=576, bias=True)
+        (sigmoid): Sigmoid()
+        (dw_conv1): Conv2d(24, 144, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=24, bias=False)
+        (dw_bn1): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (dw_act1): MyDyRelu()
+        (pw_conv1): Conv2d(144, 24, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (pw_bn1): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (pw_act1): ReLU()
+        (dw_conv2): Conv2d(24, 144, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=24, bias=False)
+        (dw_bn2): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (dw_act2): MyDyRelu()
+        (pw_conv2): Conv2d(144, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (pw_bn2): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (shortcut): Identity()
+      )
+      (mobile2former): Mobile2Former(
+        (to_q): Linear(in_features=192, out_features=48, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=48, out_features=192, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (former): Former(
+        (layers): ModuleList(
+          (0): ModuleList(
+            (0): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): Attention(
+                (attend): Softmax(dim=-1)
+                (to_qkv): Linear(in_features=192, out_features=192, bias=False)
+                (to_out): Sequential(
+                  (0): Linear(in_features=64, out_features=192, bias=True)
+                  (1): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+            (1): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): FeedForward(
+                (net): Sequential(
+                  (0): Linear(in_features=192, out_features=384, bias=True)
+                  (1): GELU()
+                  (2): Dropout(p=0.3, inplace=False)
+                  (3): Linear(in_features=384, out_features=192, bias=True)
+                  (4): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+          )
+        )
+      )
+      (former2mobile): Former2Mobile(
+        (to_k): Linear(in_features=192, out_features=96, bias=True)
+        (to_v): Linear(in_features=192, out_features=96, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=96, out_features=48, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+    )
+    (3): BaseBlock(
+      (mobile): Mobile(
+        (fc1): Linear(in_features=192, out_features=48, bias=True)
+        (relu): ReLU(inplace=True)
+        (fc2): Linear(in_features=48, out_features=768, bias=True)
+        (sigmoid): Sigmoid()
+        (conv1): Conv2d(48, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): MyDyRelu()
+        (conv2): Conv2d(192, 192, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=192, bias=False)
+        (bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): MyDyRelu()
+        (conv3): Conv2d(192, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (shortcut): Identity()
+      )
+      (mobile2former): Mobile2Former(
+        (to_q): Linear(in_features=192, out_features=96, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=96, out_features=192, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (former): Former(
+        (layers): ModuleList(
+          (0): ModuleList(
+            (0): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): Attention(
+                (attend): Softmax(dim=-1)
+                (to_qkv): Linear(in_features=192, out_features=192, bias=False)
+                (to_out): Sequential(
+                  (0): Linear(in_features=64, out_features=192, bias=True)
+                  (1): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+            (1): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): FeedForward(
+                (net): Sequential(
+                  (0): Linear(in_features=192, out_features=384, bias=True)
+                  (1): GELU()
+                  (2): Dropout(p=0.3, inplace=False)
+                  (3): Linear(in_features=384, out_features=192, bias=True)
+                  (4): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+          )
+        )
+      )
+      (former2mobile): Former2Mobile(
+        (to_k): Linear(in_features=192, out_features=96, bias=True)
+        (to_v): Linear(in_features=192, out_features=96, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=96, out_features=48, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+    )
+    (4): BaseBlock(
+      (mobile): MobileDown(
+        (fc1): Linear(in_features=192, out_features=48, bias=True)
+        (relu): ReLU(inplace=True)
+        (fc2): Linear(in_features=48, out_features=1152, bias=True)
+        (sigmoid): Sigmoid()
+        (dw_conv1): Conv2d(48, 288, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=48, bias=False)
+        (dw_bn1): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (dw_act1): MyDyRelu()
+        (pw_conv1): Conv2d(288, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (pw_bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (pw_act1): ReLU()
+        (dw_conv2): Conv2d(48, 288, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=48, bias=False)
+        (dw_bn2): BatchNorm2d(288, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (dw_act2): MyDyRelu()
+        (pw_conv2): Conv2d(288, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (pw_bn2): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (shortcut): Identity()
+      )
+      (mobile2former): Mobile2Former(
+        (to_q): Linear(in_features=192, out_features=96, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=96, out_features=192, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (former): Former(
+        (layers): ModuleList(
+          (0): ModuleList(
+            (0): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): Attention(
+                (attend): Softmax(dim=-1)
+                (to_qkv): Linear(in_features=192, out_features=192, bias=False)
+                (to_out): Sequential(
+                  (0): Linear(in_features=64, out_features=192, bias=True)
+                  (1): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+            (1): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): FeedForward(
+                (net): Sequential(
+                  (0): Linear(in_features=192, out_features=384, bias=True)
+                  (1): GELU()
+                  (2): Dropout(p=0.3, inplace=False)
+                  (3): Linear(in_features=384, out_features=192, bias=True)
+                  (4): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+          )
+        )
+      )
+      (former2mobile): Former2Mobile(
+        (to_k): Linear(in_features=192, out_features=192, bias=True)
+        (to_v): Linear(in_features=192, out_features=192, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=192, out_features=96, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+    )
+    (5): BaseBlock(
+      (mobile): Mobile(
+        (fc1): Linear(in_features=192, out_features=48, bias=True)
+        (relu): ReLU(inplace=True)
+        (fc2): Linear(in_features=48, out_features=1536, bias=True)
+        (sigmoid): Sigmoid()
+        (conv1): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): MyDyRelu()
+        (conv2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384, bias=False)
+        (bn2): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): MyDyRelu()
+        (conv3): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (shortcut): Identity()
+      )
+      (mobile2former): Mobile2Former(
+        (to_q): Linear(in_features=192, out_features=192, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=192, out_features=192, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (former): Former(
+        (layers): ModuleList(
+          (0): ModuleList(
+            (0): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): Attention(
+                (attend): Softmax(dim=-1)
+                (to_qkv): Linear(in_features=192, out_features=192, bias=False)
+                (to_out): Sequential(
+                  (0): Linear(in_features=64, out_features=192, bias=True)
+                  (1): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+            (1): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): FeedForward(
+                (net): Sequential(
+                  (0): Linear(in_features=192, out_features=384, bias=True)
+                  (1): GELU()
+                  (2): Dropout(p=0.3, inplace=False)
+                  (3): Linear(in_features=384, out_features=192, bias=True)
+                  (4): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+          )
+        )
+      )
+      (former2mobile): Former2Mobile(
+        (to_k): Linear(in_features=192, out_features=192, bias=True)
+        (to_v): Linear(in_features=192, out_features=192, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=192, out_features=96, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+    )
+    (6): BaseBlock(
+      (mobile): Mobile(
+        (fc1): Linear(in_features=192, out_features=48, bias=True)
+        (relu): ReLU(inplace=True)
+        (fc2): Linear(in_features=48, out_features=2304, bias=True)
+        (sigmoid): Sigmoid()
+        (conv1): Conv2d(96, 576, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(576, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): MyDyRelu()
+        (conv2): Conv2d(576, 576, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=576, bias=False)
+        (bn2): BatchNorm2d(576, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): MyDyRelu()
+        (conv3): Conv2d(576, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (shortcut): Sequential(
+          (0): Conv2d(96, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (mobile2former): Mobile2Former(
+        (to_q): Linear(in_features=192, out_features=192, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=192, out_features=192, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (former): Former(
+        (layers): ModuleList(
+          (0): ModuleList(
+            (0): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): Attention(
+                (attend): Softmax(dim=-1)
+                (to_qkv): Linear(in_features=192, out_features=192, bias=False)
+                (to_out): Sequential(
+                  (0): Linear(in_features=64, out_features=192, bias=True)
+                  (1): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+            (1): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): FeedForward(
+                (net): Sequential(
+                  (0): Linear(in_features=192, out_features=384, bias=True)
+                  (1): GELU()
+                  (2): Dropout(p=0.3, inplace=False)
+                  (3): Linear(in_features=384, out_features=192, bias=True)
+                  (4): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+          )
+        )
+      )
+      (former2mobile): Former2Mobile(
+        (to_k): Linear(in_features=192, out_features=256, bias=True)
+        (to_v): Linear(in_features=192, out_features=256, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=256, out_features=128, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+    )
+    (7): BaseBlock(
+      (mobile): Mobile(
+        (fc1): Linear(in_features=192, out_features=48, bias=True)
+        (relu): ReLU(inplace=True)
+        (fc2): Linear(in_features=48, out_features=3072, bias=True)
+        (sigmoid): Sigmoid()
+        (conv1): Conv2d(128, 768, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(768, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): MyDyRelu()
+        (conv2): Conv2d(768, 768, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=768, bias=False)
+        (bn2): BatchNorm2d(768, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): MyDyRelu()
+        (conv3): Conv2d(768, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (shortcut): Identity()
+      )
+      (mobile2former): Mobile2Former(
+        (to_q): Linear(in_features=192, out_features=256, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=256, out_features=192, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (former): Former(
+        (layers): ModuleList(
+          (0): ModuleList(
+            (0): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): Attention(
+                (attend): Softmax(dim=-1)
+                (to_qkv): Linear(in_features=192, out_features=192, bias=False)
+                (to_out): Sequential(
+                  (0): Linear(in_features=64, out_features=192, bias=True)
+                  (1): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+            (1): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): FeedForward(
+                (net): Sequential(
+                  (0): Linear(in_features=192, out_features=384, bias=True)
+                  (1): GELU()
+                  (2): Dropout(p=0.3, inplace=False)
+                  (3): Linear(in_features=384, out_features=192, bias=True)
+                  (4): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+          )
+        )
+      )
+      (former2mobile): Former2Mobile(
+        (to_k): Linear(in_features=192, out_features=256, bias=True)
+        (to_v): Linear(in_features=192, out_features=256, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=256, out_features=128, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+    )
+    (8): BaseBlock(
+      (mobile): MobileDown(
+        (fc1): Linear(in_features=192, out_features=48, bias=True)
+        (relu): ReLU(inplace=True)
+        (fc2): Linear(in_features=48, out_features=3072, bias=True)
+        (sigmoid): Sigmoid()
+        (dw_conv1): Conv2d(128, 768, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=128, bias=False)
+        (dw_bn1): BatchNorm2d(768, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (dw_act1): MyDyRelu()
+        (pw_conv1): Conv2d(768, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (pw_bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (pw_act1): ReLU()
+        (dw_conv2): Conv2d(128, 768, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
+        (dw_bn2): BatchNorm2d(768, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (dw_act2): MyDyRelu()
+        (pw_conv2): Conv2d(768, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (pw_bn2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (shortcut): Identity()
+      )
+      (mobile2former): Mobile2Former(
+        (to_q): Linear(in_features=192, out_features=256, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=256, out_features=192, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (former): Former(
+        (layers): ModuleList(
+          (0): ModuleList(
+            (0): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): Attention(
+                (attend): Softmax(dim=-1)
+                (to_qkv): Linear(in_features=192, out_features=192, bias=False)
+                (to_out): Sequential(
+                  (0): Linear(in_features=64, out_features=192, bias=True)
+                  (1): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+            (1): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): FeedForward(
+                (net): Sequential(
+                  (0): Linear(in_features=192, out_features=384, bias=True)
+                  (1): GELU()
+                  (2): Dropout(p=0.3, inplace=False)
+                  (3): Linear(in_features=384, out_features=192, bias=True)
+                  (4): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+          )
+        )
+      )
+      (former2mobile): Former2Mobile(
+        (to_k): Linear(in_features=192, out_features=384, bias=True)
+        (to_v): Linear(in_features=192, out_features=384, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=384, out_features=192, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+    )
+    (9): BaseBlock(
+      (mobile): Mobile(
+        (fc1): Linear(in_features=192, out_features=48, bias=True)
+        (relu): ReLU(inplace=True)
+        (fc2): Linear(in_features=48, out_features=4608, bias=True)
+        (sigmoid): Sigmoid()
+        (conv1): Conv2d(192, 1152, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1152, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): MyDyRelu()
+        (conv2): Conv2d(1152, 1152, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1152, bias=False)
+        (bn2): BatchNorm2d(1152, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): MyDyRelu()
+        (conv3): Conv2d(1152, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (shortcut): Identity()
+      )
+      (mobile2former): Mobile2Former(
+        (to_q): Linear(in_features=192, out_features=384, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=384, out_features=192, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (former): Former(
+        (layers): ModuleList(
+          (0): ModuleList(
+            (0): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): Attention(
+                (attend): Softmax(dim=-1)
+                (to_qkv): Linear(in_features=192, out_features=192, bias=False)
+                (to_out): Sequential(
+                  (0): Linear(in_features=64, out_features=192, bias=True)
+                  (1): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+            (1): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): FeedForward(
+                (net): Sequential(
+                  (0): Linear(in_features=192, out_features=384, bias=True)
+                  (1): GELU()
+                  (2): Dropout(p=0.3, inplace=False)
+                  (3): Linear(in_features=384, out_features=192, bias=True)
+                  (4): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+          )
+        )
+      )
+      (former2mobile): Former2Mobile(
+        (to_k): Linear(in_features=192, out_features=384, bias=True)
+        (to_v): Linear(in_features=192, out_features=384, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=384, out_features=192, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+    )
+    (10): BaseBlock(
+      (mobile): Mobile(
+        (fc1): Linear(in_features=192, out_features=48, bias=True)
+        (relu): ReLU(inplace=True)
+        (fc2): Linear(in_features=48, out_features=4608, bias=True)
+        (sigmoid): Sigmoid()
+        (conv1): Conv2d(192, 1152, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(1152, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act1): MyDyRelu()
+        (conv2): Conv2d(1152, 1152, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1152, bias=False)
+        (bn2): BatchNorm2d(1152, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act2): MyDyRelu()
+        (conv3): Conv2d(1152, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (shortcut): Identity()
+      )
+      (mobile2former): Mobile2Former(
+        (to_q): Linear(in_features=192, out_features=384, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=384, out_features=192, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (former): Former(
+        (layers): ModuleList(
+          (0): ModuleList(
+            (0): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): Attention(
+                (attend): Softmax(dim=-1)
+                (to_qkv): Linear(in_features=192, out_features=192, bias=False)
+                (to_out): Sequential(
+                  (0): Linear(in_features=64, out_features=192, bias=True)
+                  (1): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+            (1): PreNorm(
+              (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+              (fn): FeedForward(
+                (net): Sequential(
+                  (0): Linear(in_features=192, out_features=384, bias=True)
+                  (1): GELU()
+                  (2): Dropout(p=0.3, inplace=False)
+                  (3): Linear(in_features=384, out_features=192, bias=True)
+                  (4): Dropout(p=0.3, inplace=False)
+                )
+              )
+            )
+          )
+        )
+      )
+      (former2mobile): Former2Mobile(
+        (to_k): Linear(in_features=192, out_features=384, bias=True)
+        (to_v): Linear(in_features=192, out_features=384, bias=True)
+        (attend): Softmax(dim=-1)
+        (to_out): Sequential(
+          (0): Linear(in_features=384, out_features=192, bias=True)
+          (1): Dropout(p=0.0, inplace=False)
+        )
+      )
+    )
+  )
+  (conv): Conv2d(192, 1152, kernel_size=(1, 1), stride=(1, 1), bias=False)
+  (bn): BatchNorm2d(1152, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (avg): AvgPool2d(kernel_size=(7, 7), stride=(7, 7), padding=0)
+  (head): Sequential(
+    (0): Linear(in_features=1344, out_features=1920, bias=True)
+    (1): hswish()
+    (2): Linear(in_features=1920, out_features=1000, bias=True)
+  )
+)
