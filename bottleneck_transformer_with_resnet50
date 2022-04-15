@@ -1,0 +1,64 @@
+layers used to replace
+
+BottleStack(
+  (net): Sequential(
+    (0): BottleBlock(
+      (shortcut): Sequential(
+        (0): Conv2d(256, 2048, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (1): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU()
+      )
+      (net): Sequential(
+        (0): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU()
+        (3): Attention(
+          (to_qkv): Conv2d(512, 1536, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (pos_emb): RelPosEmb()
+        )
+        (4): AvgPool2d(kernel_size=(2, 2), stride=(2, 2), padding=0)
+        (5): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (6): ReLU()
+        (7): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (8): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (activation): ReLU()
+    )
+    (1): BottleBlock(
+      (shortcut): Identity()
+      (net): Sequential(
+        (0): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU()
+        (3): Attention(
+          (to_qkv): Conv2d(512, 1536, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (pos_emb): RelPosEmb()
+        )
+        (4): Identity()
+        (5): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (6): ReLU()
+        (7): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (8): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (activation): ReLU()
+    )
+    (2): BottleBlock(
+      (shortcut): Identity()
+      (net): Sequential(
+        (0): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU()
+        (3): Attention(
+          (to_qkv): Conv2d(512, 1536, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (pos_emb): RelPosEmb()
+        )
+        (4): Identity()
+        (5): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (6): ReLU()
+        (7): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (8): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (activation): ReLU()
+    )
+  )
+)
