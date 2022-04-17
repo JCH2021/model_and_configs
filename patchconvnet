@@ -1,0 +1,1129 @@
+model
+
+PatchConvnet(
+  (patch_embed): ConvStem(
+    (proj): Sequential(
+      (0): Sequential(
+        (0): Conv2d(3, 48, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      )
+      (1): GELU()
+      (2): Sequential(
+        (0): Conv2d(48, 96, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      )
+      (3): GELU()
+      (4): Sequential(
+        (0): Conv2d(96, 192, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      )
+      (5): GELU()
+      (6): Sequential(
+        (0): Conv2d(192, 384, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      )
+    )
+  )
+  (blocks): ModuleList(
+    (0): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (1): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (2): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (3): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (4): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (5): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (6): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (7): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (8): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (9): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (10): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (11): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (12): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (13): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (14): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (15): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (16): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (17): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (18): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (19): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (20): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (21): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (22): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (23): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (24): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (25): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (26): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (27): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (28): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (29): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (30): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (31): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (32): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (33): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (34): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (35): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (36): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (37): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (38): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (39): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (40): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (41): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (42): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (43): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (44): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (45): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (46): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (47): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (48): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (49): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (50): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (51): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (52): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (53): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (54): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (55): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (56): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (57): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (58): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+    (59): Layer_scale_init_Block(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Conv_blocks_se(
+        (qkv_pos): Sequential(
+          (0): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+          (1): GELU()
+          (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384)
+          (3): GELU()
+          (4): SqueezeExcite(
+            (conv_reduce): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (act1): ReLU(inplace=True)
+            (conv_expand): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+          )
+          (5): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+        )
+      )
+      (drop_path): Identity()
+    )
+  )
+  (blocks_token_only): ModuleList(
+    (0): Layer_scale_init_Block_only_token(
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (attn): Learned_Aggregation_Layer(
+        (q): Linear(in_features=384, out_features=384, bias=True)
+        (k): Linear(in_features=384, out_features=384, bias=True)
+        (v): Linear(in_features=384, out_features=384, bias=True)
+        (id): Identity()
+        (attn_drop): Dropout(p=0.0, inplace=False)
+        (proj): Linear(in_features=384, out_features=384, bias=True)
+        (proj_drop): Dropout(p=0.0, inplace=False)
+      )
+      (drop_path): Identity()
+      (norm2): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (mlp): Mlp(
+        (fc1): Linear(in_features=384, out_features=1152, bias=True)
+        (act): GELU()
+        (fc2): Linear(in_features=1152, out_features=384, bias=True)
+        (drop): Dropout(p=0.0, inplace=False)
+      )
+    )
+  )
+  (norm): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+  (head): Linear(in_features=384, out_features=1000, bias=True)
+)
