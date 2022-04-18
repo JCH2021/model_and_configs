@@ -1,0 +1,490 @@
+DistributedDataParallel(
+  (module): ResNet(
+    (stage0): Sequential(
+      (conv1): ConvBN(
+        (nonlinear): ReLU()
+        (conv): Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (maxpool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+    )
+    (stage1): Sequential(
+      (0): BasicBlock(
+        (shortcut): Identity()
+        (conv1): DiverseBranchBlock(
+          (nonlinear): ReLU()
+          (dbb_origin): Sequential(
+            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_avg): Sequential(
+            (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BNAndPadLayer(
+              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (avg): AvgPool2d(kernel_size=3, stride=1, padding=0)
+            (avgbn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1): Sequential(
+            (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1_kxk): Sequential(
+            (idconv1): IdentityBasedConv1x1(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn1): BNAndPadLayer(
+              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), bias=False)
+            (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (conv2): DiverseBranchBlock(
+          (nonlinear): Identity()
+          (dbb_origin): Sequential(
+            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_avg): Sequential(
+            (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BNAndPadLayer(
+              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (avg): AvgPool2d(kernel_size=3, stride=1, padding=0)
+            (avgbn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1): Sequential(
+            (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1_kxk): Sequential(
+            (idconv1): IdentityBasedConv1x1(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn1): BNAndPadLayer(
+              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), bias=False)
+            (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+      )
+      (1): BasicBlock(
+        (shortcut): Identity()
+        (conv1): DiverseBranchBlock(
+          (nonlinear): ReLU()
+          (dbb_origin): Sequential(
+            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_avg): Sequential(
+            (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BNAndPadLayer(
+              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (avg): AvgPool2d(kernel_size=3, stride=1, padding=0)
+            (avgbn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1): Sequential(
+            (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1_kxk): Sequential(
+            (idconv1): IdentityBasedConv1x1(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn1): BNAndPadLayer(
+              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), bias=False)
+            (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (conv2): DiverseBranchBlock(
+          (nonlinear): Identity()
+          (dbb_origin): Sequential(
+            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_avg): Sequential(
+            (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BNAndPadLayer(
+              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (avg): AvgPool2d(kernel_size=3, stride=1, padding=0)
+            (avgbn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1): Sequential(
+            (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1_kxk): Sequential(
+            (idconv1): IdentityBasedConv1x1(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn1): BNAndPadLayer(
+              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), bias=False)
+            (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+      )
+    )
+    (stage2): Sequential(
+      (0): BasicBlock(
+        (shortcut): ConvBN(
+          (nonlinear): Identity()
+          (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
+          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (conv1): DiverseBranchBlock(
+          (nonlinear): ReLU()
+          (dbb_origin): Sequential(
+            (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_avg): Sequential(
+            (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BNAndPadLayer(
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (avg): AvgPool2d(kernel_size=3, stride=2, padding=0)
+            (avgbn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1): Sequential(
+            (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1_kxk): Sequential(
+            (idconv1): IdentityBasedConv1x1(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn1): BNAndPadLayer(
+              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (conv2): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), bias=False)
+            (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (conv2): DiverseBranchBlock(
+          (nonlinear): Identity()
+          (dbb_origin): Sequential(
+            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_avg): Sequential(
+            (conv): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BNAndPadLayer(
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (avg): AvgPool2d(kernel_size=3, stride=1, padding=0)
+            (avgbn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1): Sequential(
+            (conv): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1_kxk): Sequential(
+            (idconv1): IdentityBasedConv1x1(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn1): BNAndPadLayer(
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), bias=False)
+            (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+      )
+      (1): BasicBlock(
+        (shortcut): Identity()
+        (conv1): DiverseBranchBlock(
+          (nonlinear): ReLU()
+          (dbb_origin): Sequential(
+            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_avg): Sequential(
+            (conv): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BNAndPadLayer(
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (avg): AvgPool2d(kernel_size=3, stride=1, padding=0)
+            (avgbn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1): Sequential(
+            (conv): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1_kxk): Sequential(
+            (idconv1): IdentityBasedConv1x1(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn1): BNAndPadLayer(
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), bias=False)
+            (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (conv2): DiverseBranchBlock(
+          (nonlinear): Identity()
+          (dbb_origin): Sequential(
+            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_avg): Sequential(
+            (conv): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BNAndPadLayer(
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (avg): AvgPool2d(kernel_size=3, stride=1, padding=0)
+            (avgbn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1): Sequential(
+            (conv): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1_kxk): Sequential(
+            (idconv1): IdentityBasedConv1x1(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn1): BNAndPadLayer(
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), bias=False)
+            (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+      )
+    )
+    (stage3): Sequential(
+      (0): BasicBlock(
+        (shortcut): ConvBN(
+          (nonlinear): Identity()
+          (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)
+          (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (conv1): DiverseBranchBlock(
+          (nonlinear): ReLU()
+          (dbb_origin): Sequential(
+            (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_avg): Sequential(
+            (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BNAndPadLayer(
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (avg): AvgPool2d(kernel_size=3, stride=2, padding=0)
+            (avgbn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1): Sequential(
+            (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1_kxk): Sequential(
+            (idconv1): IdentityBasedConv1x1(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn1): BNAndPadLayer(
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (conv2): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), bias=False)
+            (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (conv2): DiverseBranchBlock(
+          (nonlinear): Identity()
+          (dbb_origin): Sequential(
+            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_avg): Sequential(
+            (conv): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BNAndPadLayer(
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (avg): AvgPool2d(kernel_size=3, stride=1, padding=0)
+            (avgbn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1): Sequential(
+            (conv): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1_kxk): Sequential(
+            (idconv1): IdentityBasedConv1x1(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn1): BNAndPadLayer(
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), bias=False)
+            (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+      )
+      (1): BasicBlock(
+        (shortcut): Identity()
+        (conv1): DiverseBranchBlock(
+          (nonlinear): ReLU()
+          (dbb_origin): Sequential(
+            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_avg): Sequential(
+            (conv): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BNAndPadLayer(
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (avg): AvgPool2d(kernel_size=3, stride=1, padding=0)
+            (avgbn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1): Sequential(
+            (conv): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1_kxk): Sequential(
+            (idconv1): IdentityBasedConv1x1(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn1): BNAndPadLayer(
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), bias=False)
+            (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (conv2): DiverseBranchBlock(
+          (nonlinear): Identity()
+          (dbb_origin): Sequential(
+            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_avg): Sequential(
+            (conv): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BNAndPadLayer(
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (avg): AvgPool2d(kernel_size=3, stride=1, padding=0)
+            (avgbn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1): Sequential(
+            (conv): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1_kxk): Sequential(
+            (idconv1): IdentityBasedConv1x1(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn1): BNAndPadLayer(
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), bias=False)
+            (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+      )
+    )
+    (stage4): Sequential(
+      (0): BasicBlock(
+        (shortcut): ConvBN(
+          (nonlinear): Identity()
+          (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (conv1): DiverseBranchBlock(
+          (nonlinear): ReLU()
+          (dbb_origin): Sequential(
+            (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_avg): Sequential(
+            (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BNAndPadLayer(
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (avg): AvgPool2d(kernel_size=3, stride=2, padding=0)
+            (avgbn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1): Sequential(
+            (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1_kxk): Sequential(
+            (idconv1): IdentityBasedConv1x1(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn1): BNAndPadLayer(
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (conv2): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), bias=False)
+            (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (conv2): DiverseBranchBlock(
+          (nonlinear): Identity()
+          (dbb_origin): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_avg): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BNAndPadLayer(
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (avg): AvgPool2d(kernel_size=3, stride=1, padding=0)
+            (avgbn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1_kxk): Sequential(
+            (idconv1): IdentityBasedConv1x1(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn1): BNAndPadLayer(
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), bias=False)
+            (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+      )
+      (1): BasicBlock(
+        (shortcut): Identity()
+        (conv1): DiverseBranchBlock(
+          (nonlinear): ReLU()
+          (dbb_origin): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_avg): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BNAndPadLayer(
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (avg): AvgPool2d(kernel_size=3, stride=1, padding=0)
+            (avgbn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1_kxk): Sequential(
+            (idconv1): IdentityBasedConv1x1(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn1): BNAndPadLayer(
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), bias=False)
+            (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (conv2): DiverseBranchBlock(
+          (nonlinear): Identity()
+          (dbb_origin): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_avg): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BNAndPadLayer(
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (avg): AvgPool2d(kernel_size=3, stride=1, padding=0)
+            (avgbn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1): Sequential(
+            (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (dbb_1x1_kxk): Sequential(
+            (idconv1): IdentityBasedConv1x1(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn1): BNAndPadLayer(
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), bias=False)
+            (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+      )
+    )
+    (gap): AdaptiveAvgPool2d(output_size=1)
+    (linear): Linear(in_features=512, out_features=5, bias=True)
+  )
+)
